@@ -9,7 +9,7 @@ public class Manager extends Employee{
 
 
     public Manager(String name, int ID, double sal, String address){
-        //using parent constructor
+        //  using parent constructor
         super(name, ID, sal, address);
         this.subordinates = new ArrayList <>();
     }

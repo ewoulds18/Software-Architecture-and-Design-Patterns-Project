@@ -9,8 +9,8 @@ public class Employee {
     protected double salary;
     protected List<Employee> subordinates;
     protected String address;
-    //Commenting out for now to avoid errors
-    //protected  List<Observers> Observor;
+    // Commenting out for now to avoid errors
+    // protected  List<Observers> Observor;
 
     // constructor
     public Employee(String name, int ID, double sal, String address) {

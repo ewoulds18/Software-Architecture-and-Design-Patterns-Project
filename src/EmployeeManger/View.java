@@ -18,7 +18,7 @@ public class View extends Pane {
 	public View(){
 		GridPane root = new GridPane();
 		
-		//Align content to center and set 10 pixel padding around elements
+		// Align content to center and set 10 pixel padding around elements
 		root.setAlignment(Pos.CENTER);
 		root.setHgap(10);
 		root.setVgap(10);
