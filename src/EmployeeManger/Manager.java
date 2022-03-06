@@ -1,79 +1,53 @@
-//package com.java.structural.composite;
+package src.EmployeeManger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Manager implements Employee{
-    private String name;
-    private double salary;
-    private Employee employee;
+public class Manager extends Employee{
+    //private List<Employee> employees;
 
 
-    public Manager(String name,double salary){
-        this.name = name;
-        this.salary = salary;
-
+    public Manager(String name, int ID, double sal, String address){
+        //using parent constructor
+        super(name, ID, sal, address);
+        this.subordinates = new ArrayList <>();
     }
-
-
-    List <Employee> employees = new ArrayList <Employee>();
-
+    
     public void add(Employee employee) {
-
-        employees.add(employee);
-
+        this.subordinates.add(employee);
     }
-
-
+    
     public void remove(Employee employee) {
-
-        employee.remove(employee);
+        this.subordinates.remove(employee);
     }
 
-    public Employee getSubordinates(List <Employee> employees) {
+    public List<Employee> getSubordinates() {return subordinates;}
 
-        return employees.get(List <Employee> employees);
+    public String getName() {return name;}
 
+    public double getSalary() {return salary;}
+    
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "name='" + name + '\'' +
+                ", ID=" + ID +
+                ", salary=" + salary +
+                ", address='" + address +
+                ", subordinates=" + subordinates + '\'' +
+                '}' + '\n';
     }
-
-    public String getName() {
-
-        return name;
-
-    }
-
-    public double getSalary() {
-
-        return salary;
-
-    }
-
+    
     public void print() {
-
         System.out.println("-------------");
-
-        System.out.println("Name ="+getName());
-
-        System.out.println("Salary ="+getSalary());
-
+        System.out.println("Name =" + getName());
+        System.out.println("Salary =" + getSalary());
         System.out.println("-------------");
-
-
-
-        Iterator<Employee> employeeIterator = employees.iterator();
-
-        while(employeeIterator.hasNext()){
-
+        Iterator<Employee> employeeIterator = subordinates.iterator();
+        while (employeeIterator.hasNext()) {
             Employee employee = employeeIterator.next();
-
-            employee.print();
-
+            System.out.println(employee);
         }
-
     }
-
-
-
-
 }
