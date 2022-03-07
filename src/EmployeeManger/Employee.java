@@ -3,13 +3,15 @@ package src.EmployeeManger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Employee {
+public class Employee implements IEmployee{
     protected String name;
     protected int ID;
     protected double salary;
     protected List<Employee> subordinates;
     protected String address;
+    protected boolean isCeo;
     protected  List<Observer> observers;
+
     // Commenting out for now to avoid errors
     //
     // constructor
@@ -27,6 +29,13 @@ public class Employee {
         this.subordinates.remove(e);
     }
 
+    public void setIsCeo(boolean isCeo){
+        this.isCeo = isCeo;
+    }
+
+    public boolean getIsCeo(){
+        return isCeo;
+    }
     public List<Employee> getSubordinates(){
         return subordinates;
     }
@@ -42,7 +51,7 @@ public class Employee {
                 '}' + '\n';
     }
 
-    public double getSalary() {return salary;}
+    public double getSalary() {return CalculateSalary();}
     
     public void setSalary(double salary) {this.salary = salary;}
     
@@ -57,9 +66,22 @@ public class Employee {
     public void alertObserver(Observer observer) {observer.sendMessage();}
 
 
+    public double CalculateSalary() {
+        return salary;
+    }
+
+    public double CalculateWeeklySalary() {
+        return salary;
+    }
 
 
+    public double CalculateMonthlySalary() {
+        return salary;
+    }
 
+    public double CalculateBonusSalary() {
+        return salary;
+    }
 }
 
 
