@@ -49,6 +49,7 @@ public class View extends Pane {
 		
 		//manager and carpool lists
 		Manager CEO = new Manager("Eric", 1, 60000, "Fredericton");
+		CEO.setIsCeo(true);
 		Manager Manager = new Manager("Fadi", 2, 55000, "Fredericton");
 		Manager Manager2 = new Manager("Anoma", 3, 55000, "Fredericton");
 		Employee emp = new Employee("Jordan", 4, 50000, "Fredericton");
