@@ -11,6 +11,8 @@ public class Employee {
     protected String address;
     // Commenting out for now to avoid errors
     //
+
+
     // protected  List<Observers> Observor;
 
     // constructor
@@ -52,6 +54,11 @@ public class Employee {
     public String getAddress() {
         return address;
     }
+
+
+
+
+
 }
 
 

@@ -6,22 +6,37 @@ import java.util.List;
 
 public class Manager extends Employee{
     //private List<Employee> employees;
+    //
+    //
+
+
+
+
+
+
+
     // Class Manager extending employee
 
 
     public Manager(String name, int ID, double sal, String address){
         //  using parent constructor
+
+
+
         //to construct manager object
         super(name, ID, sal, address);
         this.subordinates = new ArrayList <>();
+
     }
     
     public void add(Employee employee) {
         this.subordinates.add(employee);
+
     }
     
     public void remove(Employee employee) {
         this.subordinates.remove(employee);
+
     }
 
     public List<Employee> getSubordinates() {return subordinates;}
@@ -39,6 +54,7 @@ public class Manager extends Employee{
                 ", address='" + address +
                 ", subordinates=" + subordinates + '\'' +
                 '}' + '\n';
+
     }
     
     public void print() {
@@ -51,5 +67,9 @@ public class Manager extends Employee{
             Employee employee = employeeIterator.next();
             System.out.println(employee);
         }
+
     }
+
+
+
 }
