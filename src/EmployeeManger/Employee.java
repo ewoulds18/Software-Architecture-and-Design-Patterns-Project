@@ -9,12 +9,9 @@ public class Employee {
     protected double salary;
     protected List<Employee> subordinates;
     protected String address;
+    protected  List<Observer> observers;
     // Commenting out for now to avoid errors
     //
-
-
-    // protected  List<Observers> Observor;
-
     // constructor
     public Employee(String name, int ID, double sal, String address) {
         this.name = name;
@@ -54,6 +51,10 @@ public class Employee {
     public String getAddress() {
         return address;
     }
+
+    public void addObserver(Observer observer) {observers.add(observer);}
+
+    public void alertObserver(Observer observer) {observer.sendMessage();}
 
 
 
