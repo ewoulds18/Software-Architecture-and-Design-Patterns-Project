@@ -10,6 +10,7 @@ public class Employee {
     protected List<Employee> subordinates;
     protected String address;
     // Commenting out for now to avoid errors
+    //
     // protected  List<Observers> Observor;
 
     // constructor
@@ -41,7 +42,7 @@ public class Employee {
                 ", subordinates=" + subordinates +  '\'' +
                 '}' + '\n';
     }
-    
+
     public double getSalary() {return salary;}
     
     public void setSalary(double salary) {this.salary = salary;}

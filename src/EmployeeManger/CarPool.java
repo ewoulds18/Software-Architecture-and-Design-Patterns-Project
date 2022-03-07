@@ -4,6 +4,11 @@ import java.util.List;
 
 public class CarPool extends Employee {
     //private List<Employee> subordinates;
+    //
+    //
+    //
+    //
+    //
     private String name;
     private List<Employee> passengers;
 
@@ -15,9 +20,9 @@ public class CarPool extends Employee {
     public void add(Employee employee) {
 
   /*  this is leaf node so this method
-
+//
   is  not applicable to this class. */
-
+//
     }
     public void remove(Employee employee) {
 

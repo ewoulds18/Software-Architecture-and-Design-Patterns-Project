@@ -6,10 +6,12 @@ import java.util.List;
 
 public class Manager extends Employee{
     //private List<Employee> employees;
+    // Class Manager extending employee
 
 
     public Manager(String name, int ID, double sal, String address){
         //  using parent constructor
+        //to construct manager object
         super(name, ID, sal, address);
         this.subordinates = new ArrayList <>();
     }
