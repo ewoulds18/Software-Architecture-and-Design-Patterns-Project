@@ -10,12 +10,10 @@ public class Employee implements IEmployee{
     protected List<Employee> subordinates;
     protected String address;
     protected boolean isCeo;
+    protected  List<Observer> observers;
+
     // Commenting out for now to avoid errors
     //
-
-
-    // protected  List<Observers> Observor;
-
     // constructor
     public Employee(String name, int ID, double sal, String address) {
         this.name = name;
@@ -62,6 +60,10 @@ public class Employee implements IEmployee{
     public String getAddress() {
         return address;
     }
+
+    public void addObserver(Observer observer) {observers.add(observer);}
+
+    public void alertObserver(Observer observer) {observer.sendMessage();}
 
 
     public double CalculateSalary() {
