@@ -3,27 +3,14 @@ package src.EmployeeManger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+// Class Manager extending employee
 public class Manager extends Employee{
-    //private List<Employee> employees;
-    //
-    //
-
-
-
-
-
-
-
-    // Class Manager extending employee
-
-
+    
     public Manager(String name, int ID, double sal, String address){
-        //  using parent constructor
-
-
-
-        //to construct manager object
+        /*
+        using parent constructor
+        to construct manager object
+        */
         super(name, ID, sal, address);
         this.subordinates = new ArrayList <>();
 
@@ -69,7 +56,4 @@ public class Manager extends Employee{
         }
 
     }
-
-
-
 }

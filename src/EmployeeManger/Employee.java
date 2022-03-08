@@ -82,6 +82,17 @@ public class Employee implements IEmployee{
     public double CalculateBonusSalary() {
         return salary;
     }
+    
+    public String getName() { return name; }
+    
+    public Employee findEmpByName(String name){
+        for(Employee emp : subordinates){
+            if(emp.getName().equals(name)){
+                return emp;
+            }
+        }
+        return null;
+    }
 }
 
 

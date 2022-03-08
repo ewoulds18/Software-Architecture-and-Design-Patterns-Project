@@ -24,38 +24,20 @@ public class View extends Pane {
 		root.setVgap(10);
 		root.setPadding(new Insets(25, 25, 25, 25));
 		
-		//title text
-		Text headerText = new Text("Employee Manager");
-		headerText.setFont(new Font("Times New Roman",40));
-		
-		//Text fields to input data
-		TextField empName = new TextField();
-		empName.setMaxWidth(200);
-		TextField empSalary = new TextField();
-		empSalary.setMaxWidth(100);
-		TextField empAddress = new TextField();
-		empAddress.setMaxWidth(100);
-		
-		TextArea feedbackText = new TextArea();
-		feedbackText.setEditable(false);
-		feedbackText.setMaxWidth(2000);
-		
-		//labels for above the text fields
-		Label empLabel = new Label("Employee Name");
-		Label salLabel = new Label("Salary");
-		Label addressLabel = new Label("Address");
-		Label empListLabel = new Label("Add to list: ");
-		Label empNameToFindLabel = new Label("Employee name to get subordinates/passengers");
-		
 		//manager and carpool lists
-		Manager CEO = new Manager("Eric", 1, 60000, "Fredericton");
+		Manager CEO = new Manager("Eric", 1, 40, "Fredericton");
 		CEO.setIsCeo(true);
-		Manager Manager = new Manager("Fadi", 2, 55000, "Fredericton");
-		Manager Manager2 = new Manager("Anoma", 3, 55000, "Fredericton");
-		Employee emp = new Employee("Jordan", 4, 50000, "Fredericton");
+		Manager Manager = new Manager("Fadi", 2, 35, "Fredericton");
+		Manager Manager2 = new Manager("Anoma", 3, 35, "Fredericton");
+		Employee emp = new Employee("Jordan", 4, 30, "Fredericton");
 		CEO.add(Manager);
 		CEO.add(Manager2);
 		Manager.add(emp);
+		
+		//Text area to put feedback when actions are completed
+		TextArea feedbackText = new TextArea();
+		feedbackText.setEditable(false);
+		feedbackText.setMaxWidth(2000);
 		
 		//Drop down menu to select list to add employee too
 		ObservableList<String> options =
@@ -66,60 +48,144 @@ public class View extends Pane {
 						"Carpool1",
 						"Carpool2"
 				);
+		
+		//title text
+		Text headerText = new Text("Employee Manager");
+		headerText.setFont(new Font("Times New Roman",40));
+		
+		/*
+			Fields to for updating an employee record
+		 */
+		ObservableList<Employee> employees =
+				FXCollections.observableArrayList(
+						CEO,
+						Manager,
+						Manager2,
+						emp
+				);
+		
+		//labels for above the text fields
+		Label empNameLabel = new Label("Employee Name");
+		
+		final ComboBox empList = new ComboBox<>(employees);
+		empList.setMaxWidth(100);
+		TextField updateField = new TextField();
+		
+		//Buttons to update Values
+		Button updatePay = new Button("Update Pay");
+		Button updateAddress = new Button("Update Address");
+		
+		updatePay.setOnAction(event -> {
+			Employee temp = (Employee) empList.getValue();
+			temp.setSalary(Double.parseDouble(updateField.getText()));
+			feedbackText.setText(temp.getName() + " Salary Updated");
+		});
+		updateAddress.setOnAction(event -> {
+			Employee temp = (Employee) empList.getValue();
+			temp.setAddress(updateField.getText());
+			feedbackText.setText(temp.getName() + " Address Updated");
+		});
+		
+		
+		/*
+			Code for Adding Employees to an existing list as a subordinate
+		 */
+		
+		//Text fields to input data
+		TextField empName = new TextField();
+		empName.setMaxWidth(150);
+		TextField empSalary = new TextField();
+		empSalary.setMaxWidth(100);
+		TextField empAddress = new TextField();
+		empAddress.setMaxWidth(100);
+		
+		//labels for above the text fields
+		Label empLabel = new Label("Employee Name");
+		Label salLabel = new Label("Salary (hourly)");
+		Label addressLabel = new Label("Address");
+		Label empListLabel = new Label("Add to list: ");
+		
+		
 		final ComboBox listOptions = new ComboBox(options);
-		final ComboBox findListOptions = new ComboBox(options);
 		
 		Button submit = new Button("Add Employee");
 		submit.setOnAction(event -> {
+			Employee toAdd = new Employee(empName.getText(), empId, Double.parseDouble(empSalary.getText()), empAddress.getText());
 			//get text from text fields and add to our composite here
 			//Add employee to list here
-			switch (listOptions.getValue().toString()){
-				case("CEO"):
-					CEO.add(new Employee(empName.getText(), empId, Double.parseDouble(empSalary.getText()), empAddress.getText()));
-					feedbackText.setText("Added Employee: "+ empName.getText());
-					break;
-				case("Manager"):
-					Manager.add(new Employee(empName.getText(), empId, Double.parseDouble(empSalary.getText()), empAddress.getText()));
-					feedbackText.setText("Added Employee: "+ empName.getText());
-					break;
-				case("Manager2"):
-					Manager2.add(new Employee(empName.getText(), empId, Double.parseDouble(empSalary.getText()), empAddress.getText()));
-					feedbackText.setText("Added Employee: "+ empName.getText());
-					break;
-				case("Carpool1"):
-					feedbackText.setText("Not yet Implemented");
-					break;
-				case("Carpool2"):
-					feedbackText.setText("Nopt yet Implemented");
-					break;
+			switch (listOptions.getValue().toString()) {
+				case ("CEO") -> {
+					CEO.add(toAdd);
+					feedbackText.setText("Added Employee: " + empName.getText());
+				}
+				case ("Manager") -> {
+					Manager.add(toAdd);
+					feedbackText.setText("Added Employee: " + empName.getText());
+				}
+				case ("Manager2") -> {
+					Manager2.add(toAdd);
+					feedbackText.setText("Added Employee: " + empName.getText());
+				}
+				case ("Carpool1") -> feedbackText.setText("Not yet Implemented");
+				case ("Carpool2") -> feedbackText.setText("Nopt yet Implemented");
 			}
+			employees.add(toAdd);
 			empName.clear();
 			empSalary.clear();
 			empAddress.clear();
 		});
 		
+		/*
+			Code for Listing all Employees under CEO or Manager
+		 */
+		
+		Label empNameToFindLabel = new Label("Employee name to get subordinates/passengers");
+		
+		final ComboBox findListOptions = new ComboBox(options);
+		
 		Button find = new Button("Find Subordinates");
 		find.setOnAction(event -> {
 			//get text from text fields and get subordinates
-			switch (findListOptions.getValue().toString()){
-				case("CEO"):
-					feedbackText.setText(CEO.toString());
-					break;
-				case("Manager"):
-					feedbackText.setText(Manager.toString());
-					break;
-				case("Manager2"):
-					feedbackText.setText(Manager2.toString());
-					break;
-				case("Carpool1"):
-					feedbackText.setText("Not yet Implemented");
-					break;
-				case("Carpool2"):
-					feedbackText.setText("Nopt yet Implemented");
-					break;
+			switch (findListOptions.getValue().toString()) {
+				case ("CEO") -> feedbackText.setText(CEO.toString());
+				case ("Manager") -> feedbackText.setText(Manager.toString());
+				case ("Manager2") -> feedbackText.setText(Manager2.toString());
+				case ("Carpool1") -> feedbackText.setText("Not yet Implemented");
+				case ("Carpool2") -> feedbackText.setText("Nopt yet Implemented");
 			}
 			empId++;
 		});
+		/*
+			Code to Calc employee pay
+		 */
+		final ComboBox empList2 = new ComboBox(employees);
+		empList2.setMaxWidth(100);
+		
+		ObservableList<String> payOptions =
+				FXCollections.observableArrayList(
+						"Get Salary",
+						"Get Weekly Salary",
+						"Get Monthly Pay",
+						"Get Bonus"
+				);
+		final ComboBox payOps = new ComboBox(payOptions);
+		
+		Button salary = new Button("Calculate Salary");
+		salary.setOnAction(e->{
+			switch (payOps.getValue().toString()){
+				case("Get Salary"):
+					break;
+				case("Get Weekly Salary"):
+					break;
+				case("Get Monthly Salary"):
+					break;
+				case("Get Bonus"):
+					break;
+			}
+		});
+		
+		Label empNameLabel2 = new Label("Employee  name");
+		Label payType = new Label("Pay Type");
 		
 		//adding to root and layout elements
 		root.add(headerText, 1, 0, 4, 1);
@@ -133,9 +199,19 @@ public class View extends Pane {
 		root.add(listOptions, 3, 2);
 		root.add(submit, 4, 2);
 		root.add(empNameToFindLabel, 0, 4);
-		root.add(findListOptions, 0, 5, 2, 1);
+		root.add(findListOptions, 0, 5);
 		root.add(find, 1, 5);
-		root.add(feedbackText, 0,8, 10, 1);
+		root.add(empNameLabel, 0, 6);
+		root.add(empList, 0, 7);
+		root.add(updateField, 1, 7);
+		root.add(updateAddress, 2, 7);
+		root.add(updatePay, 3, 7);
+		root.add(empNameLabel2, 0,8);
+		root.add(payType, 1, 8);
+		root.add(empList2, 0, 9);
+		root.add(payOps, 1, 9);
+		root.add(salary, 2, 9);
+		root.add(feedbackText, 0,10, 10, 1);
 		
 		this.getChildren().addAll(root);
 	}

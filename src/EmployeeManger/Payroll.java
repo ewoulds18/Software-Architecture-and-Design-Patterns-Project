@@ -9,23 +9,19 @@ public class Payroll extends EmployeePayroll{
     }
 
     @Override
-    public double CalculateWeeklySalary() {
-        return employee.salary / 7;
-    }
+    public double CalculateWeeklySalary() {return employee.salary * 7;}
 
     @Override
-    public double CalculateMonthlySalary() {
-        return employee.salary / 30;
-    }
+    public double CalculateMonthlySalary() {return employee.salary * 30;}
 
     @Override
     public double CalculateBonusSalary() {
-        var isCeo = employee.getIsCeo();
-        double bonus = 0;
+        boolean isCeo = employee.getIsCeo();
+        double bonus;
         if (isCeo){
-            bonus = employee.salary * 0.2;
+            bonus = employee.salary * 1.2;
         }else{
-            bonus = employee.salary * 0.1;
+            bonus = employee.salary * 1.1;
         }
         return bonus;
     }
