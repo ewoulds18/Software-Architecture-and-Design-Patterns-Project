@@ -31,6 +31,10 @@ public class View extends Pane {
 		Manager Manager = new Manager("Fadi", 2, 35, "Fredericton");
 		Manager Manager2 = new Manager("Anoma", 3, 35, "Fredericton");
 		Employee emp = new Employee("Jordan", 4, 30, "Fredericton");
+		CarPool cp1 = new CarPool("Eric", 1, 40, "Fredericton");
+		CarPool cp2 = new CarPool("Fadi", 2, 35, "Fredericton");
+		CarPool cp3 = new CarPool("Jordan", 4, 30, "Fredericton");
+		
 		CEO.add(Manager);
 		CEO.add(Manager2);
 		Manager.add(emp);
@@ -45,9 +49,17 @@ public class View extends Pane {
 				FXCollections.observableArrayList(
 						"CEO",
 						"Manager",
+						"Manager2"
+				);
+		
+		ObservableList<String> allLists =
+				FXCollections.observableArrayList(
+						"CEO",
+						"Manager",
 						"Manager2",
-						"Carpool1",
-						"Carpool2"
+						"CarPool1",
+						"CarPool2",
+						"CarPool3"
 				);
 		
 		//title text
@@ -127,12 +139,6 @@ public class View extends Pane {
 					Manager2.add(toAdd);
 					feedbackText.setText("Added Employee: "+ empName.getText());
 					break;
-				case("Carpool1"):
-					feedbackText.setText("Not yet Implemented");
-					break;
-				case("Carpool2"):
-					feedbackText.setText("Nopt yet Implemented");
-					break;
 			}
 			employees.add(toAdd);
 			empName.clear();
@@ -146,7 +152,7 @@ public class View extends Pane {
 		
 		Label empNameToFindLabel = new Label("Employee name to get subordinates/passengers");
 		
-		final ComboBox findListOptions = new ComboBox(options);
+		final ComboBox findListOptions = new ComboBox(allLists);
 		
 		Button find = new Button("Find Subordinates");
 		find.setOnAction(event -> {
@@ -161,11 +167,14 @@ public class View extends Pane {
 				case("Manager2"):
 					feedbackText.setText(Manager2.toString());
 					break;
-				case("Carpool1"):
-					feedbackText.setText("Not yet Implemented");
+				case("CarPool1"):
+					feedbackText.setText(cp1.toString());
 					break;
-				case("Carpool2"):
-					feedbackText.setText("Nopt yet Implemented");
+				case("CarPool2"):
+					feedbackText.setText(cp2.toString());
+					break;
+				case("CarPool3"):
+					feedbackText.setText(cp3.toString());
 					break;
 			}
 			empId++;
@@ -213,6 +222,38 @@ public class View extends Pane {
 		Label empNameLabel2 = new Label("Employee  name");
 		Label payType = new Label("Pay Type");
 		
+		/*
+			Code to Add existing Employee to a carpool
+		 */
+		ObservableList<String> carPools =
+				FXCollections.observableArrayList(
+						"CarPool1",
+						"CarPool2",
+						"CarPool3"
+				);
+		Label name = new Label("Employee Name");
+		Label carPoolLabel = new Label("Car Pools");
+		
+		ComboBox carpool = new ComboBox(carPools);
+		ComboBox carPoolNames = new ComboBox(employees);
+		carPoolNames.setMaxWidth(100);
+		
+		Button addToCarPool = new Button("Add To Car Pool");
+		
+		addToCarPool.setOnAction(e->{
+			switch (carpool.getValue().toString()){
+				case("CarPool1"):
+					cp1.add((Employee) carPoolNames.getValue());
+					break;
+				case("CarPool2"):
+					cp2.add((Employee) carPoolNames.getValue());
+					break;
+				case("CarPool3"):
+					cp3.add((Employee) carPoolNames.getValue());
+					break;
+			}
+		});
+		
 		//adding to root and layout elements
 		root.add(headerText, 1, 0, 4, 1);
 		root.add(empLabel, 0, 1);
@@ -237,7 +278,12 @@ public class View extends Pane {
 		root.add(empList2, 0, 9);
 		root.add(payOps, 1, 9);
 		root.add(salary, 2, 9);
-		root.add(feedbackText, 0,10, 10, 1);
+		root.add(carPoolLabel, 0, 10);
+		root.add(name, 1, 10);
+		root.add(carpool, 0, 11);
+		root.add(carPoolNames, 1, 11);
+		root.add(addToCarPool, 2, 11);
+		root.add(feedbackText, 0,12, 10, 1);
 		
 		this.getChildren().addAll(root);
 	}

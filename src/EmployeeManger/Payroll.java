@@ -8,25 +8,24 @@ public class Payroll extends EmployeePayroll{
     }
     @Override
     public double CalculateSalary() {
-        var sal = super.CalculateSalary();
-        return sal;
+        return super.CalculateSalary();
     }
 
 
     @Override
     public double CalculateWeeklySalary() {
-        var sal = super.CalculateSalary();
-        return (sal * 7);
+        double sal = super.CalculateSalary();
+        return (sal * 40);
     }
 
     @Override
     public double CalculateMonthlySalary() {
-        var sal = super.CalculateSalary();
-        return (sal * 30);}
+        double sal = super.CalculateSalary();
+        return (sal * 40 * 4);}
 
     @Override
     public double CalculateBonusSalary(boolean isCeo) {
-        var sal = super.CalculateSalary();
+        double sal = super.CalculateSalary();
         double bonus;
         if (isCeo){
             bonus = sal * 20;
