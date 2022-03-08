@@ -187,22 +187,24 @@ public class View extends Pane {
 		Button salary = new Button("Calculate Salary");
 		salary.setOnAction(e->{
 			Employee temp = (Employee )empList2.getValue();
+			IEmployee employeeCheck = new Payroll(temp);
+
 			switch (payOps.getValue().toString()){
 				case("Get Salary"):
-					temp.CalculateSalary();
-					feedbackText.setText(temp.getName() + " earns " + temp.CalculateSalary() + " an hour");
+					employeeCheck.CalculateSalary();
+					feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateSalary() + " an hour");
 					break;
 				case("Get Weekly Salary"):
-					temp.CalculateWeeklySalary();
-					feedbackText.setText(temp.getName() + " earns " + temp.CalculateWeeklySalary() + " a week");
+					employeeCheck.CalculateWeeklySalary();
+					feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateWeeklySalary() + " a week");
 					break;
 				case("Get Monthly Salary"):
 					temp.CalculateMonthlySalary();
-					feedbackText.setText(temp.getName() + " earns " + temp.CalculateMonthlySalary() + " a Month");
+					feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateMonthlySalary() + " a Month");
 					break;
 				case("Get Bonus"):
-					temp.CalculateBonusSalary();
-					feedbackText.setText(temp.getName() + " earns " + temp.CalculateBonusSalary() + " for bonus pay");
+					employeeCheck.CalculateBonusSalary(temp.getIsCeo());
+					feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateBonusSalary(temp.getIsCeo()) + " for bonus pay");
 					break;
 			}
 		});
