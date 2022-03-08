@@ -6,5 +6,5 @@ public interface IEmployee {
     public double CalculateSalary();
     public double CalculateWeeklySalary();
     public double CalculateMonthlySalary();
-    public double CalculateBonusSalary();
+    public double CalculateBonusSalary(boolean isCeo);
 }

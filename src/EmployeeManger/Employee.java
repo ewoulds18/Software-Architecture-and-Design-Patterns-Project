@@ -79,7 +79,7 @@ public class Employee implements IEmployee{
         return salary;
     }
 
-    public double CalculateBonusSalary() {
+    public double CalculateBonusSalary(boolean isCeo) {
         return salary;
     }
     
