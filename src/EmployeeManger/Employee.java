@@ -3,6 +3,7 @@ package src.EmployeeManger;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Employee implements IEmployee{
     protected String name;
     protected int ID;
@@ -11,6 +12,7 @@ public class Employee implements IEmployee{
     protected String address;
     protected boolean isCeo;
     protected  List<Observer> observers;
+
 
     // Commenting out for now to avoid errors
     //

@@ -13,14 +13,13 @@ public class CarPool extends Employee {
     }
 
     public void add(Employee employee) {
-  /*  this is leaf node so this method
-//
-  is  not applicable to this class. */
+        this.subordinates.add(employee);
+
     }
+
     public void remove(Employee employee) {
-         /*  this is leaf node so this method
-            is not applicable to this class.
-        */
+        this.subordinates.remove(employee);
+
     }
     
     public List<Employee> getPassengers() {return passengers;}
