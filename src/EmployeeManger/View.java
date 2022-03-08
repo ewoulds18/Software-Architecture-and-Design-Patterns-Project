@@ -113,21 +113,25 @@ public class View extends Pane {
 			Employee toAdd = new Employee(empName.getText(), empId, Double.parseDouble(empSalary.getText()), empAddress.getText());
 			//get text from text fields and add to our composite here
 			//Add employee to list here
-			switch (listOptions.getValue().toString()) {
-				case ("CEO") -> {
+			switch (listOptions.getValue().toString()){
+				case("CEO"):
 					CEO.add(toAdd);
-					feedbackText.setText("Added Employee: " + empName.getText());
-				}
-				case ("Manager") -> {
+					feedbackText.setText("Added Employee: "+ empName.getText());
+					break;
+				case("Manager"):
 					Manager.add(toAdd);
-					feedbackText.setText("Added Employee: " + empName.getText());
-				}
-				case ("Manager2") -> {
+					feedbackText.setText("Added Employee: "+ empName.getText());
+					break;
+				case("Manager2"):
 					Manager2.add(toAdd);
-					feedbackText.setText("Added Employee: " + empName.getText());
-				}
-				case ("Carpool1") -> feedbackText.setText("Not yet Implemented");
-				case ("Carpool2") -> feedbackText.setText("Nopt yet Implemented");
+					feedbackText.setText("Added Employee: "+ empName.getText());
+					break;
+				case("Carpool1"):
+					feedbackText.setText("Not yet Implemented");
+					break;
+				case("Carpool2"):
+					feedbackText.setText("Nopt yet Implemented");
+					break;
 			}
 			employees.add(toAdd);
 			empName.clear();
@@ -146,12 +150,22 @@ public class View extends Pane {
 		Button find = new Button("Find Subordinates");
 		find.setOnAction(event -> {
 			//get text from text fields and get subordinates
-			switch (findListOptions.getValue().toString()) {
-				case ("CEO") -> feedbackText.setText(CEO.toString());
-				case ("Manager") -> feedbackText.setText(Manager.toString());
-				case ("Manager2") -> feedbackText.setText(Manager2.toString());
-				case ("Carpool1") -> feedbackText.setText("Not yet Implemented");
-				case ("Carpool2") -> feedbackText.setText("Nopt yet Implemented");
+			switch (findListOptions.getValue().toString()){
+				case("CEO"):
+					feedbackText.setText(CEO.toString());
+					break;
+				case("Manager"):
+					feedbackText.setText(Manager.toString());
+					break;
+				case("Manager2"):
+					feedbackText.setText(Manager2.toString());
+					break;
+				case("Carpool1"):
+					feedbackText.setText("Not yet Implemented");
+					break;
+				case("Carpool2"):
+					feedbackText.setText("Nopt yet Implemented");
+					break;
 			}
 			empId++;
 		});
@@ -165,21 +179,30 @@ public class View extends Pane {
 				FXCollections.observableArrayList(
 						"Get Salary",
 						"Get Weekly Salary",
-						"Get Monthly Pay",
+						"Get Monthly Salary",
 						"Get Bonus"
 				);
 		final ComboBox payOps = new ComboBox(payOptions);
 		
 		Button salary = new Button("Calculate Salary");
 		salary.setOnAction(e->{
+			Employee temp = (Employee )empList2.getValue();
 			switch (payOps.getValue().toString()){
 				case("Get Salary"):
+					temp.CalculateSalary();
+					feedbackText.setText(temp.getName() + " earns " + temp.CalculateSalary() + " an hour");
 					break;
 				case("Get Weekly Salary"):
+					temp.CalculateWeeklySalary();
+					feedbackText.setText(temp.getName() + " earns " + temp.CalculateWeeklySalary() + " a week");
 					break;
 				case("Get Monthly Salary"):
+					temp.CalculateMonthlySalary();
+					feedbackText.setText(temp.getName() + " earns " + temp.CalculateMonthlySalary() + " a Month");
 					break;
 				case("Get Bonus"):
+					temp.CalculateBonusSalary();
+					feedbackText.setText(temp.getName() + " earns " + temp.CalculateBonusSalary() + " for bonus pay");
 					break;
 			}
 		});
