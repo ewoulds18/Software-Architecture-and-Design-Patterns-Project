@@ -9,6 +9,7 @@ public class Manager extends Employee{
     public Manager(String name, int ID, double sal, String address){
         /*
         using parent constructor
+
         to construct manager object
         */
         super(name, ID, sal, address);
@@ -26,11 +27,14 @@ public class Manager extends Employee{
 
     }
 
-    public List<Employee> getSubordinates() {return subordinates;}
+    public List<Employee> getSubordinates() {
+        return subordinates;}
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;}
 
-    public double getSalary() {return salary;}
+    public double getSalary() {
+        return salary;}
     
     @Override
     public String toString() {
