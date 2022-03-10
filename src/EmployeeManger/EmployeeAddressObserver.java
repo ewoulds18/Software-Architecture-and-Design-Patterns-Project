@@ -9,7 +9,7 @@ package src.EmployeeManger;
 
 public class EmployeeAddressObserver implements Observer {
     public Employee emp;
-    public EmployeeAddressObserverObserver(Employee emp) {
+    public EmployeeAddressObserver(Employee emp) {
         this.emp = emp;
         this.emp.addObserver(this);
     }
