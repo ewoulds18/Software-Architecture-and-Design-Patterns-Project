@@ -16,8 +16,7 @@ public class View extends Pane {
 	
 	public View(){
 		GridPane root = new GridPane();
-
-
+		
 		// Align content to center and set 10 pixel padding around elements
 		root.setAlignment(Pos.CENTER);
 		root.setHgap(10);
@@ -72,12 +71,16 @@ public class View extends Pane {
 		//title text
 		Text headerText = new Text("Employee Manager");
 		headerText.setFont(new Font("Times New Roman",40));
-		/*
+		
+		/************************************************************
 			Code for removing employees
 		 */
+		
 		Label removeListLabel = new Label("Employee to remove");
 		ObservableList<Employee> empToRemove =
-				FXCollections.observableArrayList();
+				FXCollections.observableArrayList(
+						emp
+				);
 		
 		ComboBox removeList = new ComboBox(empToRemove);
 		removeList.setMaxWidth(100);
@@ -92,7 +95,8 @@ public class View extends Pane {
 			empToRemove.remove(remove);
 			feedbackText.setText("Removed: " + remove);
 		});
-		/*
+		
+		/************************************************************
 			Fields to for updating an employee record
 		 */
 		
@@ -118,8 +122,7 @@ public class View extends Pane {
 			feedbackText.setText(temp.getName() + " Address Updated");
 		});
 		
-		
-		/*
+		/************************************************************
 			Code for Adding Employees to an existing list as a subordinate
 		 */
 		
@@ -166,7 +169,7 @@ public class View extends Pane {
 			empAddress.clear();
 		});
 		
-		/*
+		/************************************************************
 			Code for Listing all Employees under CEO or Manager
 		 */
 		
@@ -199,9 +202,11 @@ public class View extends Pane {
 			}
 			empId++;
 		});
-		/*
+		
+		/************************************************************
 			Code to Calc employee pay
 		 */
+		
 		final ComboBox empList2 = new ComboBox(employees);
 		empList2.setMaxWidth(100);
 		
@@ -242,9 +247,10 @@ public class View extends Pane {
 		Label empNameLabel2 = new Label("Employee  name");
 		Label payType = new Label("Pay Type");
 		
-		/*
+		/************************************************************
 			Code to Add existing Employee to a carpool
 		 */
+		
 		ObservableList<String> carPools =
 				FXCollections.observableArrayList(
 						"CarPool1",
