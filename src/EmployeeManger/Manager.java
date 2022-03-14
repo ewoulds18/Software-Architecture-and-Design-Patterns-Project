@@ -22,7 +22,7 @@ public class Manager extends Employee{
 
     }
     
-    public void remove(Employee employee) {
+    public void Remove(Employee employee) {
         this.subordinates.remove(employee);
 
     }

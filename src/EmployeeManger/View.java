@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -44,6 +43,14 @@ public class View extends Pane {
 		feedbackText.setEditable(false);
 		feedbackText.setMaxWidth(2000);
 		
+		ObservableList<Employee> employees =
+				FXCollections.observableArrayList(
+						CEO,
+						Manager,
+						Manager2,
+						emp
+				);
+		
 		//Drop down menu to select list to add employee too
 		ObservableList<String> options =
 				FXCollections.observableArrayList(
@@ -65,17 +72,34 @@ public class View extends Pane {
 		//title text
 		Text headerText = new Text("Employee Manager");
 		headerText.setFont(new Font("Times New Roman",40));
+		/*
+			Code for removing employees
+		 */
 		
+		ObservableList<Employee> empToRemove =
+				FXCollections.observableArrayList(
+						CEO.getSubordinates().get(0),
+						CEO.getSubordinates().get(1),
+						Manager.getSubordinates().get(0)
+				
+				);
+		
+		ComboBox removeList = new ComboBox(empToRemove);
+		removeList.setMaxWidth(100);
+		
+		Button removeButton = new Button("Remove Employee");
+		removeButton.setOnAction(e->{
+			Employee remove = (Employee) removeList.getValue();
+			CEO.Remove(remove);
+			Manager.Remove(remove);
+			Manager2.Remove(remove);
+			employees.remove(remove);
+			empToRemove.remove(remove);
+			feedbackText.setText("Removed: " + remove);
+		});
 		/*
 			Fields to for updating an employee record
 		 */
-		ObservableList<Employee> employees =
-				FXCollections.observableArrayList(
-						CEO,
-						Manager,
-						Manager2,
-						emp
-				);
 		
 		//labels for above the text fields
 		Label empNameLabel = new Label("Employee Name");
@@ -141,6 +165,7 @@ public class View extends Pane {
 					break;
 			}
 			employees.add(toAdd);
+			empToRemove.add(toAdd);
 			empName.clear();
 			empSalary.clear();
 			empAddress.clear();
@@ -254,6 +279,7 @@ public class View extends Pane {
 			}
 		});
 		
+		
 		//adding to root and layout elements
 		root.add(headerText, 1, 0, 4, 1);
 		root.add(empLabel, 0, 1);
@@ -283,7 +309,9 @@ public class View extends Pane {
 		root.add(carpool, 0, 11);
 		root.add(carPoolNames, 1, 11);
 		root.add(addToCarPool, 2, 11);
-		root.add(feedbackText, 0,12, 10, 1);
+		root.add(removeList, 0, 13);
+		root.add(removeButton, 1, 13);
+		root.add(feedbackText, 0,14, 10, 1);
 		
 		this.getChildren().addAll(root);
 	}
