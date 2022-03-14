@@ -1,5 +1,7 @@
 package src.EmployeeManger;
 
+import javafx.scene.control.TextArea;
+
 /**************************
  This is the interface for the observer class.
  It has one method, sendMessage(). Which is meant to
@@ -7,5 +9,5 @@ package src.EmployeeManger;
  *************************/
 
 interface Observer {
-    void sendMessage();
+    void sendMessage(TextArea messageLocation);
 }

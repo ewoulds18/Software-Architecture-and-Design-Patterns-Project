@@ -1,5 +1,7 @@
 package src.EmployeeManger;
 
+import javafx.scene.control.TextArea;
+
 /**************************
  This is EmployeeAddressObserver class.
  It has two methods, the constructor and
@@ -11,11 +13,11 @@ public class EmployeeAddressObserver implements Observer {
     public Employee emp;
     public EmployeeAddressObserver(Employee emp) {
         this.emp = emp;
-        this.emp.addObserver(this);
     }
 
     @Override
-    public void sendMessage() {
-        System.out.println("Employee: + " + emp.name + "'s address is updated!");
+    public void sendMessage(TextArea messageLocation) {
+        String message = "Observer: " + emp.getName() + "'s address has been updated!";
+        messageLocation.setText(message);
     }
 }
