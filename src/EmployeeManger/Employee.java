@@ -27,7 +27,7 @@ public class Employee implements IEmployee{
 
     public void add(Employee e) {this.subordinates.add(e);}
 
-    public void remove(Employee e) {
+    public void Remove(Employee e) {
         this.subordinates.remove(e);
     }
 
@@ -87,14 +87,6 @@ public class Employee implements IEmployee{
     
     public String getName() { return name; }
     
-    public Employee findEmpByName(String name){
-        for(Employee emp : subordinates){
-            if(emp.getName().equals(name)){
-                return emp;
-            }
-        }
-        return null;
-    }
 }
 
 
