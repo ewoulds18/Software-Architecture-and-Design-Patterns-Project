@@ -90,15 +90,13 @@ public class View extends Pane {
 		
 		updatePay.setOnAction(event -> {
 			Employee temp = (Employee) empList.getValue();
-			temp.setSalary(Double.parseDouble(updateField.getText()));
-			feedbackText.setText(temp.getName() + " Salary Updated");
+			temp.setSalary(Double.parseDouble(updateField.getText()), feedbackText);
 		});
 		updateAddress.setOnAction(event -> {
 			Employee temp = (Employee) empList.getValue();
-			temp.setAddress(updateField.getText());
-			feedbackText.setText(temp.getName() + " Address Updated");
+			temp.setAddress(updateField.getText(), feedbackText);
 		});
-		
+
 		
 		/*
 			Code for Adding Employees to an existing list as a subordinate
