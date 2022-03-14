@@ -1,5 +1,6 @@
 package src.EmployeeManger;
 
+import javafx.scene.control.TextArea;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +12,13 @@ public class Employee implements IEmployee{
     protected List<Employee> subordinates;
     protected String address;
     protected boolean isCeo;
-    protected  List<Observer> observers;
+    protected EmployeeAddressObserver addressObserver;
+    protected EmployeeSalaryObserver salaryObserver;
 
 
     // Commenting out for now to avoid errors
+    //
+    //
     //
     // constructor
     public Employee(String name, int ID, double sal, String address) {
@@ -23,6 +27,8 @@ public class Employee implements IEmployee{
         this.salary = sal;
         this.address = address;
         this.subordinates = new ArrayList<>();
+        addressObserver = new EmployeeAddressObserver(this);
+        salaryObserver = new EmployeeSalaryObserver(this);
     }
 
     public void add(Employee e) {this.subordinates.add(e);}
@@ -55,18 +61,19 @@ public class Employee implements IEmployee{
 
     public double getSalary() {return CalculateSalary();}
     
-    public void setSalary(double salary) {this.salary = salary;}
+    public void setSalary(double salary, TextArea messageLocation) {
+        this.salary = salary;
+        salaryObserver.sendMessage(messageLocation);
+    }
     
-    public void setAddress(String address) {this.address = address;}
+    public void setAddress(String address, TextArea messageLocation) {
+        this.address = address;
+        addressObserver.sendMessage(messageLocation);
+    }
     
     public String getAddress() {
         return address;
     }
-
-    public void addObserver(Observer observer) {observers.add(observer);}
-
-    public void alertObserver(Observer observer) {observer.sendMessage();}
-
 
     public double CalculateSalary() {
         return salary;
@@ -75,7 +82,6 @@ public class Employee implements IEmployee{
     public double CalculateWeeklySalary() {
         return salary;
     }
-
 
     public double CalculateMonthlySalary() {
         return salary;

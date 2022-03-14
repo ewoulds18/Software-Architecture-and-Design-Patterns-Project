@@ -9,7 +9,8 @@ public class Main extends Application {
 	public static final View view = new View();
 	
 	public static void main(String[] args){
-		launch(args);}
+		launch(args);
+	}
 
 
 	@Override
