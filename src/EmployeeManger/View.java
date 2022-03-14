@@ -75,14 +75,9 @@ public class View extends Pane {
 		/*
 			Code for removing employees
 		 */
-		
+		Label removeListLabel = new Label("Employee to remove");
 		ObservableList<Employee> empToRemove =
-				FXCollections.observableArrayList(
-						CEO.getSubordinates().get(0),
-						CEO.getSubordinates().get(1),
-						Manager.getSubordinates().get(0)
-				
-				);
+				FXCollections.observableArrayList();
 		
 		ComboBox removeList = new ComboBox(empToRemove);
 		removeList.setMaxWidth(100);
@@ -309,6 +304,7 @@ public class View extends Pane {
 		root.add(carpool, 0, 11);
 		root.add(carPoolNames, 1, 11);
 		root.add(addToCarPool, 2, 11);
+		root.add(removeListLabel, 0, 12);
 		root.add(removeList, 0, 13);
 		root.add(removeButton, 1, 13);
 		root.add(feedbackText, 0,14, 10, 1);
