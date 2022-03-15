@@ -42,6 +42,9 @@ public class View extends Pane {
 		feedbackText.setEditable(false);
 		feedbackText.setMaxWidth(2000);
 		
+		/************************************************************
+			All Lists used for dropdown menus
+		 */
 		ObservableList<Employee> employees =
 				FXCollections.observableArrayList(
 						CEO,
@@ -50,7 +53,6 @@ public class View extends Pane {
 						emp
 				);
 		
-		//Drop down menu to select list to add employee too
 		ObservableList<String> options =
 				FXCollections.observableArrayList(
 						"CEO",
@@ -68,6 +70,26 @@ public class View extends Pane {
 						"CarPool3"
 				);
 		
+		ObservableList<String> carPools =
+				FXCollections.observableArrayList(
+						"CarPool1",
+						"CarPool2",
+						"CarPool3"
+				);
+		
+		ObservableList<String> payOptions =
+				FXCollections.observableArrayList(
+						"Get Salary",
+						"Get Weekly Salary",
+						"Get Monthly Salary",
+						"Get Bonus"
+				);
+		
+		ObservableList<Employee> empToRemove =
+				FXCollections.observableArrayList(
+						emp
+				);
+		
 		//title text
 		Text headerText = new Text("Employee Manager");
 		headerText.setFont(new Font("Times New Roman",40));
@@ -77,10 +99,6 @@ public class View extends Pane {
 		 */
 		
 		Label removeListLabel = new Label("Employee to remove");
-		ObservableList<Employee> empToRemove =
-				FXCollections.observableArrayList(
-						emp
-				);
 		
 		ComboBox removeList = new ComboBox(empToRemove);
 		removeList.setMaxWidth(100);
@@ -88,12 +106,16 @@ public class View extends Pane {
 		Button removeButton = new Button("Remove Employee");
 		removeButton.setOnAction(e->{
 			Employee remove = (Employee) removeList.getValue();
-			CEO.Remove(remove);
-			Manager.Remove(remove);
-			Manager2.Remove(remove);
-			employees.remove(remove);
-			empToRemove.remove(remove);
-			feedbackText.setText("Removed: " + remove);
+			if(remove != null){
+				CEO.Remove(remove);
+				Manager.Remove(remove);
+				Manager2.Remove(remove);
+				employees.remove(remove);
+				empToRemove.remove(remove);
+				feedbackText.setText("Removed: " + remove);
+			}else{
+				feedbackText.setText("Please select employee to remove");
+			}
 		});
 		
 		/************************************************************
@@ -108,18 +130,31 @@ public class View extends Pane {
 		TextField updateField = new TextField();
 		
 		//Buttons to update Values
-		Button updatePay = new Button("Update Pay");
-		Button updateAddress = new Button("Update Address");
+		Button updatePayButton = new Button("Update Pay");
+		Button updateAddressButton = new Button("Update Address");
 		
-		updatePay.setOnAction(event -> {
+		updatePayButton.setOnAction(event -> {
 			Employee temp = (Employee) empList.getValue();
-			temp.setSalary(Double.parseDouble(updateField.getText()), feedbackText);
+			if(temp != null){
+				try{
+					Double newPay = Double.parseDouble(updateField.getText());
+					temp.setSalary(newPay, feedbackText);
+				}catch (Exception e){
+					feedbackText.setText("Please enter number to update salary");
+				}
+			}else{
+				feedbackText.setText("Please select employee to update information");
+			}
 		});
-		updateAddress.setOnAction(event -> {
+		updateAddressButton.setOnAction(event -> {
 			Employee temp = (Employee) empList.getValue();
-			temp.setAddress(updateField.getText(), feedbackText);
+			if(temp != null && updateField.getText() != null){
+				temp.setAddress(updateField.getText(), feedbackText);
+			}else{
+				feedbackText.setText("Please enter new address in text field and select employee");
+			}
+			
 		});
-
 		
 		/************************************************************
 			Code for Adding Employees to an existing list as a subordinate
@@ -142,30 +177,38 @@ public class View extends Pane {
 		
 		final ComboBox listOptions = new ComboBox(options);
 		
-		Button submit = new Button("Add Employee");
-		submit.setOnAction(event -> {
-			Employee toAdd = new Employee(empName.getText(), empId, Double.parseDouble(empSalary.getText()), empAddress.getText());
+		Button submitButton = new Button("Add Employee");
+		submitButton.setOnAction(event -> {
 			//get text from text fields and add to our composite here
 			//Add employee to list here
-			switch (listOptions.getValue().toString()){
-				case("CEO"):
-					CEO.add(toAdd);
-					feedbackText.setText("Added Employee: "+ empName.getText());
-					break;
-				case("Manager"):
-					Manager.add(toAdd);
-					feedbackText.setText("Added Employee: "+ empName.getText());
-					break;
-				case("Manager2"):
-					Manager2.add(toAdd);
-					feedbackText.setText("Added Employee: "+ empName.getText());
-					break;
+			if(!empName.getText().isEmpty() && !empSalary.getText().isEmpty() && !empAddress.getText().isEmpty() ){
+				Employee toAdd = new Employee(empName.getText(), empId, Double.parseDouble(empSalary.getText()), empAddress.getText());
+				if(listOptions.getValue() != null){
+					switch (listOptions.getValue().toString()){
+						case("CEO"):
+							CEO.add(toAdd);
+							feedbackText.setText("Added Employee: "+ empName.getText());
+							break;
+						case("Manager"):
+							Manager.add(toAdd);
+							feedbackText.setText("Added Employee: "+ empName.getText());
+							break;
+						case("Manager2"):
+							Manager2.add(toAdd);
+							feedbackText.setText("Added Employee: "+ empName.getText());
+							break;
+					}
+					employees.add(toAdd);
+					empToRemove.add(toAdd);
+					empName.clear();
+					empSalary.clear();
+					empAddress.clear();
+				}else{
+					feedbackText.setText("Please select list to add employee to");
+				}
+			}else{
+				feedbackText.setText("Please fill out all fields to add employee");
 			}
-			employees.add(toAdd);
-			empToRemove.add(toAdd);
-			empName.clear();
-			empSalary.clear();
-			empAddress.clear();
 		});
 		
 		/************************************************************
@@ -176,30 +219,33 @@ public class View extends Pane {
 		
 		final ComboBox findListOptions = new ComboBox(allLists);
 		
-		Button find = new Button("Find Subordinates");
-		find.setOnAction(event -> {
+		Button findButton = new Button("Find Subordinates");
+		findButton.setOnAction(event -> {
 			//get text from text fields and get subordinates
-			switch (findListOptions.getValue().toString()){
-				case("CEO"):
-					feedbackText.setText(CEO.toString());
-					break;
-				case("Manager"):
-					feedbackText.setText(Manager.toString());
-					break;
-				case("Manager2"):
-					feedbackText.setText(Manager2.toString());
-					break;
-				case("CarPool1"):
-					feedbackText.setText(cp1.toString());
-					break;
-				case("CarPool2"):
-					feedbackText.setText(cp2.toString());
-					break;
-				case("CarPool3"):
-					feedbackText.setText(cp3.toString());
-					break;
+			if(findListOptions.getValue() != null){
+				switch (findListOptions.getValue().toString()){
+					case("CEO"):
+						feedbackText.setText(CEO.toString());
+						break;
+					case("Manager"):
+						feedbackText.setText(Manager.toString());
+						break;
+					case("Manager2"):
+						feedbackText.setText(Manager2.toString());
+						break;
+					case("CarPool1"):
+						feedbackText.setText(cp1.toString());
+						break;
+					case("CarPool2"):
+						feedbackText.setText(cp2.toString());
+						break;
+					case("CarPool3"):
+						feedbackText.setText(cp3.toString());
+						break;
+				}
+			}else{
+				feedbackText.setText("Please select list");
 			}
-			empId++;
 		});
 		
 		/************************************************************
@@ -209,73 +255,77 @@ public class View extends Pane {
 		final ComboBox empList2 = new ComboBox(employees);
 		empList2.setMaxWidth(100);
 		
-		ObservableList<String> payOptions =
-				FXCollections.observableArrayList(
-						"Get Salary",
-						"Get Weekly Salary",
-						"Get Monthly Salary",
-						"Get Bonus"
-				);
 		final ComboBox payOps = new ComboBox(payOptions);
 		
-		Button salary = new Button("Calculate Salary");
-		salary.setOnAction(e->{
+		Button salaryButton = new Button("Calculate Salary");
+		salaryButton.setOnAction(e->{
 			Employee temp = (Employee )empList2.getValue();
 			IEmployee employeeCheck = new Payroll(temp);
 
-			switch (payOps.getValue().toString()){
-				case("Get Salary"):
-					employeeCheck.CalculateSalary();
-					feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateSalary() + " an hour");
-					break;
-				case("Get Weekly Salary"):
-					employeeCheck.CalculateWeeklySalary();
-					feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateWeeklySalary() + " a week");
-					break;
-				case("Get Monthly Salary"):
-					temp.CalculateMonthlySalary();
-					feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateMonthlySalary() + " a Month");
-					break;
-				case("Get Bonus"):
-					employeeCheck.CalculateBonusSalary(temp.getIsCeo());
-					feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateBonusSalary(temp.getIsCeo()) + " for bonus pay");
-					break;
+			if(temp != null){
+				if(payOps.getValue() != null){
+					switch (payOps.getValue().toString()) {
+						case ("Get Salary"):
+							employeeCheck.CalculateSalary();
+							feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateSalary() + " an hour");
+							break;
+						case ("Get Weekly Salary"):
+							employeeCheck.CalculateWeeklySalary();
+							feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateWeeklySalary() + " a week");
+							break;
+						case ("Get Monthly Salary"):
+							temp.CalculateMonthlySalary();
+							feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateMonthlySalary() + " a Month");
+							break;
+						case ("Get Bonus"):
+							employeeCheck.CalculateBonusSalary(temp.getIsCeo());
+							feedbackText.setText(temp.getName() + " earns " + employeeCheck.CalculateBonusSalary(temp.getIsCeo()) + " for bonus pay");
+							break;
+					}
+				}else{
+					feedbackText.setText("Please select an Salary option");
+				}
+			}else{
+				feedbackText.setText("Please select an employee");
 			}
 		});
 		
 		Label empNameLabel2 = new Label("Employee  name");
-		Label payType = new Label("Pay Type");
+		Label payTypeLabel = new Label("Pay Type");
 		
 		/************************************************************
 			Code to Add existing Employee to a carpool
 		 */
 		
-		ObservableList<String> carPools =
-				FXCollections.observableArrayList(
-						"CarPool1",
-						"CarPool2",
-						"CarPool3"
-				);
-		Label name = new Label("Employee Name");
+		
+		Label nameLabel = new Label("Employee Name");
 		Label carPoolLabel = new Label("Car Pools");
 		
 		ComboBox carpool = new ComboBox(carPools);
 		ComboBox carPoolNames = new ComboBox(employees);
 		carPoolNames.setMaxWidth(100);
 		
-		Button addToCarPool = new Button("Add To Car Pool");
+		Button addToCarPoolButton = new Button("Add To Car Pool");
 		
-		addToCarPool.setOnAction(e->{
-			switch (carpool.getValue().toString()){
-				case("CarPool1"):
-					cp1.add((Employee) carPoolNames.getValue());
-					break;
-				case("CarPool2"):
-					cp2.add((Employee) carPoolNames.getValue());
-					break;
-				case("CarPool3"):
-					cp3.add((Employee) carPoolNames.getValue());
-					break;
+		addToCarPoolButton.setOnAction(e->{
+			if(carpool.getValue() != null && carPoolNames.getValue() != null){
+				Employee tempEmp = (Employee) carPoolNames.getValue();
+				switch (carpool.getValue().toString()){
+					case("CarPool1"):
+						cp1.add(tempEmp);
+						feedbackText.setText("Add "+ tempEmp.getName() + " to carpool1");
+						break;
+					case("CarPool2"):
+						cp2.add(tempEmp);
+						feedbackText.setText("Add "+ tempEmp.getName() + " to carpool2");
+						break;
+					case("CarPool3"):
+						cp3.add(tempEmp);
+						feedbackText.setText("Add "+ tempEmp.getName() + " to carpool3");
+						break;
+				}
+			}else{
+				feedbackText.setText("Please Select an Employee and Carpool from list");
 			}
 		});
 		
@@ -290,25 +340,25 @@ public class View extends Pane {
 		root.add(empSalary, 1, 2);
 		root.add(empAddress, 2, 2);
 		root.add(listOptions, 3, 2);
-		root.add(submit, 4, 2);
+		root.add(submitButton, 4, 2);
 		root.add(empNameToFindLabel, 0, 4);
 		root.add(findListOptions, 0, 5);
-		root.add(find, 1, 5);
+		root.add(findButton, 1, 5);
 		root.add(empNameLabel, 0, 6);
 		root.add(empList, 0, 7);
 		root.add(updateField, 1, 7);
-		root.add(updateAddress, 2, 7);
-		root.add(updatePay, 3, 7);
+		root.add(updateAddressButton, 2, 7);
+		root.add(updatePayButton, 3, 7);
 		root.add(empNameLabel2, 0,8);
-		root.add(payType, 1, 8);
+		root.add(payTypeLabel, 1, 8);
 		root.add(empList2, 0, 9);
 		root.add(payOps, 1, 9);
-		root.add(salary, 2, 9);
+		root.add(salaryButton, 2, 9);
 		root.add(carPoolLabel, 0, 10);
-		root.add(name, 1, 10);
+		root.add(nameLabel, 1, 10);
 		root.add(carpool, 0, 11);
 		root.add(carPoolNames, 1, 11);
-		root.add(addToCarPool, 2, 11);
+		root.add(addToCarPoolButton, 2, 11);
 		root.add(removeListLabel, 0, 12);
 		root.add(removeList, 0, 13);
 		root.add(removeButton, 1, 13);
